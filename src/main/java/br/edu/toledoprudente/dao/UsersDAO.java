@@ -8,16 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
-import br.edu.toledoprudente.pojo.Cliente;
+import br.edu.toledoprudente.pojo.Funcionario;
 import br.edu.toledoprudente.pojo.Users;
 
 @Repository
 public class UsersDAO extends AbstractDAO<Users, Integer> implements UserDetailsService {
 
 	@Autowired
-	private ClienteDAO clientedao;
+	private FuncionarioDAO funcionariodao;
 
-	public Cliente getUsuarioLogado() {
+	public Funcionario getUsuarioLogado() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String nome;
 		if (principal instanceof UserDetails) {
@@ -25,12 +25,12 @@ public class UsersDAO extends AbstractDAO<Users, Integer> implements UserDetails
 		} else {
 			nome = principal.toString();
 		}
-		return findByClienteUserName(nome);
+		return findByFuncionarioUserName(nome);
 	}
 
-	public Cliente findByClienteUserName(String username) {
-		List<Cliente> lista = clientedao
-				.createQuery("select c from Users u inner join clientes c where u.username like ?1", username);
+	public Funcionario findByFuncionarioUserName(String username) {
+		List<Funcionario> lista = funcionariodao
+				.createQuery("select c from Users u inner join funcionarios c where u.username like ?1", username);
 		return lista.isEmpty() ? null : lista.get(0);
 	}
 

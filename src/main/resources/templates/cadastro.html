@@ -55,7 +55,7 @@
 		</div>
 	</div>
 
-	<div th:if="${retorno} !=null" class="row">
+	<div th:if="${retorno} != null" class="row">
 		<span th:if="${retorno}" class="alert alert-success" th:text="${mensagem}"></span>
 		<span th:if="!${retorno}" class="alert alert-danger" th:text="${mensagem}"></span>
 	</div>

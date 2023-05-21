@@ -31,15 +31,7 @@ public class Users extends AbstractEntity<Integer> implements UserDetails {
 	private boolean isAdmin;
 
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.PERSIST)
-	private List<Cliente> clientes;
-
-	public List<Cliente> getClientes() {
-		return clientes;
-	}
-
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
-	}
+	private List<Funcionario> funcionarios;
 
 	public boolean isAdmin() {
 		return isAdmin;
@@ -128,5 +120,13 @@ public class Users extends AbstractEntity<Integer> implements UserDetails {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
 	}
 }

@@ -24,8 +24,6 @@ public class SecurityConfig {
 				.requestMatchers("/img/**").permitAll()
 				.requestMatchers("/css/**").permitAll()
 				.requestMatchers("/cadastro").permitAll()
-				.requestMatchers("/cliente/salvar").permitAll()
-
 				.anyRequest().authenticated()
 		).formLogin(
 				(form) -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll().failureUrl("/login-error"))

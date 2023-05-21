@@ -1,8 +1,10 @@
 package br.edu.toledoprudente.controller;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.toledoprudente.dao.FuncionarioDAO;
+import br.edu.toledoprudente.pojo.AppAuthority;
 import br.edu.toledoprudente.pojo.Funcionario;
+import br.edu.toledoprudente.pojo.Users;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -27,7 +31,9 @@ public class FuncionarioController {
 
 	@GetMapping("/index")
 	public String index(ModelMap model) {
-		model.addAttribute("funcionario", new Funcionario());
+		Funcionario fun = new Funcionario();
+		fun.setUsuario(new Users());
+		model.addAttribute("funcionario", fun);
 		return "/funcionario/index";
 	}
 
@@ -77,6 +83,19 @@ public class FuncionarioController {
 				model.addAttribute("retorno", false);
 				return "/funcionario/index";		
 			} else {
+				Users usu = fun.getUsuario();
+				String senha = "{bcrypt}" + new BCryptPasswordEncoder().encode(usu.getPassword());
+				usu.setPassword(senha);
+				usu.setEnabled(true);
+				usu.setAdmin(false);
+
+				Set<AppAuthority> appAuthorities = new HashSet<AppAuthority>();
+				AppAuthority app = new AppAuthority();
+				app.setAuthority("USER");
+				app.setUsername(usu.getUsername());
+				appAuthorities.add(app);
+				usu.setAppAuthorities(appAuthorities);
+				
 				if (fun.getId() == null) {
 					dao.save(fun);
 				} else {

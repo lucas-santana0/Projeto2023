@@ -5,8 +5,11 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +32,18 @@ public class Funcionario extends AbstractEntity<Integer> {
 	@Column(name="dataNascimento", nullable = false, columnDefinition = "DATE")
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate datanascimento;
+
+	public Users getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Users usuario) {
+		this.usuario = usuario;
+	}
+
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "idUsuario")
+	private Users usuario;
 
 	public String getNome() {
 		return nome;

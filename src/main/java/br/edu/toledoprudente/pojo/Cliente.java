@@ -6,11 +6,8 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -34,10 +31,6 @@ public class Cliente extends AbstractEntity<Integer> {
 	@Column(name = "dataNascimento", nullable = false, columnDefinition = "DATE")
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate datanascimento;
-
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "idUsuario")
-	private Users usuario;
 	
 	@OneToMany(mappedBy = "cliente")
 	private List<Venda> vendas;
@@ -65,15 +58,7 @@ public class Cliente extends AbstractEntity<Integer> {
 	public void setDatanascimento(LocalDate datanascimento) {
 		this.datanascimento = datanascimento;
 	}
-
-	public Users getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Users usuario) {
-		this.usuario = usuario;
-	}
-
+	
 	public List<Venda> getVendas() {
 		return vendas;
 	}

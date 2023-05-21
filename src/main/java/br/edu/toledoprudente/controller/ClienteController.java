@@ -1,8 +1,5 @@
 package br.edu.toledoprudente.controller;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.toledoprudente.dao.ClienteDAO;
-import br.edu.toledoprudente.pojo.AppAuthority;
 import br.edu.toledoprudente.pojo.Cliente;
-import br.edu.toledoprudente.pojo.Users;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -32,9 +27,7 @@ public class ClienteController {
 
 	@GetMapping("/index")
 	public String index(ModelMap model) {
-		Cliente cli = new Cliente();
-		cli.setUsuario(new Users());
-		model.addAttribute("cliente", cli);
+		model.addAttribute("cliente", new Cliente());
 		return "/cliente/index";
 	}
 
@@ -84,20 +77,6 @@ public class ClienteController {
 				model.addAttribute("retorno", false);
 				return "/cliente/index";
 			} else {
-
-				Users usu = cli.getUsuario();
-				String senha = "{bcrypt}" + new BCryptPasswordEncoder().encode(usu.getPassword());
-				usu.setPassword(senha);
-				usu.setEnabled(true);
-				usu.setAdmin(false);
-
-				Set<AppAuthority> appAuthorities = new HashSet<AppAuthority>();
-				AppAuthority app = new AppAuthority();
-				app.setAuthority("USER");
-				app.setUsername(usu.getUsername());
-				appAuthorities.add(app);
-				usu.setAppAuthorities(appAuthorities);
-
 				if (cli.getId() == null) {
 					dao.save(cli);
 				} else {
