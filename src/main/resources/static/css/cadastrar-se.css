@@ -1,0 +1,69 @@
+body {
+    background-color: #F1F2F6;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.titulo-tela {
+    margin-bottom: 7%;
+    text-align: center;
+}
+
+.formulario {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 3% 5% 5% 5%;
+    width: 50%;
+    background-color: #fff;
+}
+
+.btn-efetivar-cadastro {
+    background-color: #C61B23;
+    color: #fff;
+}
+
+.btn-efetivar-cadastro {
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3.5%;
+}
+
+.link-para-tela-de-login {
+    margin-top: 2%;
+}
+
+@media (max-width: 992px) {
+    .formulario {
+        width: 70%; 
+    }
+}
+
+@media (max-width: 768px) {
+    .formulario {
+        width: 80%; 
+    }
+}
+
+@media (max-width: 576px) {
+    .formulario {
+        width: 90%; 
+    }
+
+    .titulo-tela {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .formulario {
+        width: 95%; 
+    }
+}
