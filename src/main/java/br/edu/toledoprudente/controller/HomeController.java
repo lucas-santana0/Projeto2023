@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.edu.toledoprudente.dao.UsersDAO;
-import br.edu.toledoprudente.pojo.Cliente;
+import br.edu.toledoprudente.pojo.Funcionario;
 
 @Controller
 @RequestMapping("/")
@@ -22,8 +22,8 @@ public class HomeController {
 	}
 
 	@GetMapping("/cadastro")
-	public String cadatro(ModelMap model) {
-		model.addAttribute("cliente", new Cliente());
+	public String cadastro(ModelMap model) {
+		model.addAttribute("funcionario", new Funcionario());
 		return "/cadastro";
 	}
 

@@ -34,6 +34,7 @@ body {
     display: flex;
     flex-direction: column;
     margin-top: 3.5%;
+    text-align: center;
 }
 
 .link-para-tela-de-login {

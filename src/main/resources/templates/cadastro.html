@@ -22,46 +22,58 @@
 	<div class="container">
 		<div class="formulario">
 			<h1 class="titulo-tela">Cadastrar-se</h1>
-			<form method="post" th:action="@{cliente/salvar}" th:object="${cliente}">
-				<div class="form-group">
-					<input th:field="*{id}" type="hidden" readonly class="form-control" id="codigo">
+			<form method="post" th:action="@{/funcionario/cadastrar}" th:object="${funcionario}">
+				<input th:field="*{id}" type="hidden" readonly class="form-control" id="codigo">
+				<div class="row">
+					<div class="form-group col-12">
+						<label for="nome">Nome</label>
+						<input th:field="*{nome}" type="text" class="form-control" id="nome">
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="nome">Nome</label>
-					<input th:field="*{nome}" type="text" class="form-control" id="nome">
+				<div class="row">
+					<div class="form-group col-12">
+						<label for="datanascimento">Data de Nascimento</label>
+						<input th:field="*{datanascimento}" type="date" class="form-control" id="datanascimento">
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="datanascimento">Data de Nascimento</label>
-					<input th:field="*{datanascimento}" type="date" class="form-control" id="datanascimento">
+				<div class="row">
+					<div class="form-group col-12">
+						<label for="email">Email</label>
+						<input th:field="*{email}" type="email" class="form-control" id="email">
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input th:field="*{email}" type="email" class="form-control" id="email">
+				<div class="row">
+					<div class="form-group col-12">
+						<label for="username">Username</label>
+						<input th:field="*{usuario.username}" type="text" class="form-control" id="username">
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="username">Username</label>
-					<input th:field="*{usuario.username}" type="text" class="form-control" id="username">
+				<div class="row">
+					<div class="form-group col-12">
+						<label for="senha">Senha</label>
+						<input th:field="*{usuario.password}" type="password" class="form-control" id="senha">
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="senha">Senha</label>
-					<input th:field="*{usuario.password}" type="password" class="form-control" id="senha">
+				<div class="row">
+					<div class="form-group col-12">
+						<input th:field="*{usuario.id}" type="hidden">
+					</div>
 				</div>
-				<div class="form-group">
-					<input th:field="*{usuario.id}" type="hidden">
+				<div class="button-container">
+					<button type="submit" class="btn btn-primary">Cadastrar-se</button>
 				</div>
-				<button type="submit" class="btn btn-primary">Salvar</button>
+				<div class="link-para-tela-de-login">
+					<a th:href="@{/login}">Já está cadastrado? Clique aqui para fazer login</a>
+				</div>
+				<div class="form-group col-12">
+					<div th:if="${retorno} != null" class="button-container">
+						<span th:if="${retorno}" class="alert alert-success" th:text="${mensagem}"></span>
+						<span th:if="!${retorno}" class="alert alert-danger" th:text="${mensagem}"></span>
+					</div>
+				</div>
 			</form>
-			<a th:href="@{/login}">Já está cadastrado? Clique aqui para fazer login</a>
 		</div>
 	</div>
-
-	<div th:if="${retorno} != null" class="row">
-		<span th:if="${retorno}" class="alert alert-success" th:text="${mensagem}"></span>
-		<span th:if="!${retorno}" class="alert alert-danger" th:text="${mensagem}"></span>
-	</div>
-
-	<footer th:include="fragmentos::rodape">
-	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
 		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>

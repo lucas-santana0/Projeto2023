@@ -19,7 +19,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @EntityScan
-@Table(name = "categorias")
+@Table(name = "vendas")
 public class Venda extends AbstractEntity<Integer> {
 
 	@NotNull(message = "Informe uma data!")

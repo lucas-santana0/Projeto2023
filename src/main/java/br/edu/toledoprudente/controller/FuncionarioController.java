@@ -112,4 +112,53 @@ public class FuncionarioController {
 
 		return "/funcionario/index";
 	}
+
+	@PostMapping("/cadastrar")
+	public String cadastrar(@ModelAttribute("funcionario") Funcionario fun, ModelMap model) {
+		try {
+			Validator validator;
+			ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+			validator = factory.getValidator();
+			Set<ConstraintViolation<Funcionario>> constraintViolations = validator.validate(fun);
+			String errors = "";
+			
+			for (ConstraintViolation<Funcionario> constraintViolation : constraintViolations) {
+				errors = errors + constraintViolation.getMessage() + ". ";
+			}
+			
+			if (errors != "") {
+				model.addAttribute("funcionario", fun);
+				model.addAttribute("mensagem", errors);
+				model.addAttribute("retorno", false);
+				return "/cadastro";		
+			} else {
+				Users usu = fun.getUsuario();
+				String senha = "{bcrypt}" + new BCryptPasswordEncoder().encode(usu.getPassword());
+				usu.setPassword(senha);
+				usu.setEnabled(true);
+				usu.setAdmin(false);
+
+				Set<AppAuthority> appAuthorities = new HashSet<AppAuthority>();
+				AppAuthority app = new AppAuthority();
+				app.setAuthority("USER");
+				app.setUsername(usu.getUsername());
+				appAuthorities.add(app);
+				usu.setAppAuthorities(appAuthorities);
+				
+				if (fun.getId() == null) {
+					dao.save(fun);
+				} else {
+					dao.update(fun);
+				}
+
+				model.addAttribute("mensagem", "Salvo com sucesso!");
+				model.addAttribute("retorno", true);
+			}
+		} catch (Exception e) {
+			model.addAttribute("mensagem", "Erro ao salvar!" + e.getMessage());
+			model.addAttribute("retorno", false);
+		}
+
+		return "/cadastro";
+	}
 }

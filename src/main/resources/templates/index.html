@@ -22,12 +22,8 @@
 	</header>
 
 	<main class="container my-5">
-		<h1>Bem Vindo!</h1>
+		<h1 th:if="${nomeusuario} != null">Bem Vindo <span th:text="${nomeusuario}"></span>!</h1>
 		<h3>Gerencie seu estoque.</h3>
-
-		<p th:if="${nomeusuario} != null" class="row">
-		<h2>Usuário</h2> <span th:text="${nomeusuario}"></span>
-		</p>
 	</main>
 
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"

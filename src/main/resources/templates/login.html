@@ -13,28 +13,38 @@
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/cadastrar-se.css}">
 
 	<title>Controle de Estoque</title>
 </head>
 
 <body>
-	<header th:include="fragmentos::topo">
-	</header>
-
-	<form th:action="@{/login}" method="post">
-		<p th:if="${mensagem != null}" th:text="${mensagem}"></p>
-		<p>
-			<label for="username">Usuário</label>
-			<input class="form-control" type="text" id="username" name="username" />
-		</p>
-		<p>
-			<label for="password">Senha</label>
-			<input class="form-control" type="password" id="password" name="password" />
-		</p>
-		<button type="submit" class="btn btn-primary">Entrar</button>
-	</form>
-
-	<a th:href="@{/cadastro}">Cadastrar-se</a>
+	<div class="container">
+		<div class="formulario">
+			<h1 class="titulo-tela">Login</h1>
+			<form th:action="@{/login}" method="post">
+				<p class="alert alert-danger" th:if="${mensagem != null}" th:text="${mensagem}"></p>
+				<div class="row">
+					<div class="form-group col-12">
+						<label for="username">Usuário</label>
+						<input class="form-control" type="text" id="username" name="username" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-12">
+						<label for="password">Senha</label>
+						<input class="form-control" type="password" id="password" name="password" />
+					</div>
+				</div>
+				<div class="button-container">
+					<button type="submit" class="btn btn-primary">Entrar</button>
+				</div>
+				<div class="button-container">
+					<a class="btn btn-warning" th:href="@{/cadastro}">Cadastrar-se</a>
+				</div>
+			</form>
+		</div>
+	</div>
 
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
 		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
