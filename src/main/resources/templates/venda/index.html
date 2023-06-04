@@ -24,38 +24,29 @@
 	<main class="container my-5">
 		<h1>Vendas</h1>
 
-		<div class="form-group">
-			<label for="cliente">Cliente</label>
-			<select class="form-control" id="idcliente">
-				<option value="">Selecione um cliente</option>
-				<option th:each="item:${listacliente}" th:value="${item.id}" th:text="${item.nome}"></option>
-			</select>
-		</div>
-
-		<div class="form-group">
-			<label for="produto">Produto</label>
-			<select class="form-control" id="idproduto">
-				<option value="">Selecione um produto</option>
-				<option th:each="item:${listaproduto}" th:value="${item.id}" th:text="${item.nome}"></option>
-			</select>
-		</div>
-
-		<div class="form-row">
-			<div class="row">
-				<div class="col-4">
-					<input value="1" type="number" id="txtquantidade" class="form-control" />
-				</div>
+		<div class="row">
+			<div class="form-group col-md-6 col-12">
+				<label for="cliente">Cliente</label>
+				<select class="form-control" id="cliente">
+					<option value="">Selecione um cliente</option>
+				</select>
 			</div>
-			<div class="row">
-				<div class="col-4">
-					<a id="btnincluirproduto" class="btn btn-primary" href="#">
-						Incluir Produto
-					</a>
-				</div>
+			<div class="form-group col-md-6 col-12">
+				<label for="produto">Produto</label>
+				<select class="form-control" id="produto">
+					<option value="">Selecione um produto</option>
+				</select>
 			</div>
 		</div>
 
-		<table class="table table-striped tabela-venda">
+		<div class="row">
+			<div class="form-group col-md-6 col-12">
+				<input value="1" type="number" id="quantidade" class="form-control">
+			</div>
+			<button class="btn btn-primary btn-incluir-produto">Incluir Produto</button>
+		</div>
+
+		<table class="table tabela-venda">
 			<thead>
 				<tr>
 					<th scope="col">Descrição</th>
@@ -65,16 +56,17 @@
 					<th scope="col">Excluir</th>
 				</tr>
 			</thead>
-			<tbody id="dadostabela">
+			<tbody id="itens-venda">
 			</tbody>
 		</table>
 
-		<h3>Total Geral: <span id="totalgeral"></span></h3>
-		<button class="btn btn-success" id="btnsalvar">Salvar</button>
+		<div class="row">
+			<div class="form-group col-md-6 col12">
+				<input type="text" class="form-control total-venda" readonly>
+			</div>
+			<button class="btn btn-success btn-salvar-venda">Salvar</button>
+		</div>
 	</main>
-
-	<footer th:include="fragmentos::rodape">
-	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
 		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
@@ -89,63 +81,176 @@
 	</div>
 
 	<script>
-		$(document).ready(function () {
-
+		document.addEventListener("DOMContentLoaded", function () {
+			carregarCliente();
+			carregarProduto();
 		});
 
-		$("#btnincluirproduto").click(function () {
-			const idproduto = $('#idproduto').val();
-			buscarProduto(idproduto);
+		async function buscarProdutoPorId(idProduto) {
+			try {
+				const data = await $.get('http://localhost:8080/produto/getProduto/' + idProduto);
+				return data;
+			} catch (error) {
+				console.log('Ocorreu um erro ao buscar o produto:', error);
+				throw error;
+			}
+		}
+
+		$('.btn-incluir-produto').click(async function () {
+			let idProduto = parseInt($('#produto').val());
+			let quantidade = parseInt($('#quantidade').val());
+
+			const produto = await buscarProdutoPorId(idProduto);
+			var valorUnitario = parseFloat(produto.preco);
+			var descricaoProduto = produto.nome;
+
+			if (idProduto == 0) {
+				alert('Selecione um produto');
+			} else {
+				if (quantidade == 0) {
+					alert('Informe a quantidade');
+				} else {
+					var totalItem = valorUnitario * quantidade;
+					const tableBody = document.getElementById('itens-venda');
+					const row = document.createElement('tr');
+					const colunaDescricao = document.createElement('td');
+					const colunaQuantidade = document.createElement('td');
+					const colunaValorUnitario = document.createElement('td');
+					const colunaTotal = document.createElement('td');
+					const colunaExcluir = document.createElement('td');
+
+					// Definir o conteúdo das colunas
+					colunaDescricao.textContent = idProduto;
+					colunaQuantidade.textContent = quantidade;
+					colunaValorUnitario.textContent = valorUnitario;
+					colunaTotal.textContent = totalItem;
+
+					// Adicionar classes CSS, se necessário
+					colunaDescricao.classList.add('descricao');
+					colunaQuantidade.classList.add('quantidade');
+					colunaValorUnitario.classList.add('valor-unitario');
+					colunaTotal.classList.add('total');
+
+					// Adicionar as colunas à linha
+					row.appendChild(colunaDescricao);
+					row.appendChild(colunaQuantidade);
+					row.appendChild(colunaValorUnitario);
+					row.appendChild(colunaTotal);
+
+					// Criar o botão de excluir e adicionar à coluna correspondente
+					const botaoExcluir = document.createElement('button');
+					botaoExcluir.textContent = 'Excluir';
+					botaoExcluir.classList.add('btn-excluir', 'btn', 'btn-primary');
+					colunaExcluir.appendChild(botaoExcluir);
+					row.appendChild(colunaExcluir);
+
+					// Adicionar a linha ao corpo da tabela
+					tableBody.appendChild(row);
+				}
+			}
+			calcularTotalDaVenda();
 		});
 
-		var nomeProduto, precoProduto, idProduto, qtdeProduto;
-
-		function buscarProduto(id) {
-			qtdeProduto = $('#txtquantidade').val().trim();
-			$.get("http://localhost:8080/produto/getProduto/" + id,
-				function (resultado) {
-					nomeProduto = resultado.nome;
-					precoProduto = resultado.preco;
-					idProduto = resultado.id;
-
-					incluirProduto(nomeProduto, precoProduto, idProduto, qtdeProduto);
-				});
+		function carregarCliente() {
+			$.get('http://localhost:8080/cliente/listaCliente', function (data) {
+				const select = document.getElementById('cliente');
+				for (let i = 0; i < data.length; i++) {
+					const option = document.createElement('option');
+					option.value = data[i].id;
+					option.text = data[i].nome;
+					select.appendChild(option);
+				}
+			});
 		}
 
+		function obterItensVenda() {
+			var itens = [];
 
-		function incluirProduto(nome, preco, id, qtdeProduto) {
-			var totalProduto = qtdeProduto * preco;
+			// Obtenha todas as linhas da tabela de vendas
+			var rows = document.querySelectorAll('.tabela-venda tbody tr');
 
-			var tr = '<tr>' +
-				'<td>' + nome + '</td>' +
-				'<td>' + qtdeProduto + '</td>' +
-				'<td>' + preco + '</td>' +
-				'<td class="valor-calculado">' + totalProduto + '</td>' +
-				'<td><button class="btn btn-danger delete-button" onclick="excluirLinha(this)">Excluir</button></td>' +
-				'</tr>';
+			// Itere sobre as linhas da tabela
+			rows.forEach(function (row) {
+				var produto = parseInt(row.querySelector('.descricao').textContent);
+				var quantidade = parseInt(row.querySelector('.quantidade').textContent);
+				var valorUnitario = parseFloat(row.querySelector('.valor-unitario').textContent);
+				var total = parseFloat(row.querySelector('.total').textContent);
 
-			$('.tabela-venda').find('tbody').append(tr);
-			
-			calcularTotal();
-		}
+				// Crie um objeto para representar o item da venda
+				var item = {
+					idProduto: produto,
+					quantidade: quantidade,
+					valorUnitario: valorUnitario,
+					total: total
+				};
 
-		function excluirLinha(botao) {
-			var linha = botao.parentNode.parentNode;
-			linha.parentNode.removeChild(linha);
-			calcularTotal();
-		}
-
-		function calcularTotal() {
-			var valorCalculado = 0;
-
-			$(".valor-calculado").each(function () {
-				valorCalculado += parseFloat($(this).text());
+				// Adicione o objeto ao array de itens
+				itens.push(item);
 			});
 
-			$("#totalgeral").text(valorCalculado);
+			return itens;
+		}
+
+		$('.btn-salvar-venda').click(function () {
+			const cliente = parseInt(document.getElementById('cliente').value);
+			const totalVenda = parseFloat($('.total-venda').val());
+			const itens = obterItensVenda();
+
+			var venda = {
+				cliente: {
+					id: cliente
+				},
+				itens: itens
+			};
+
+			$.ajax({
+				url: 'http://localhost:8080/venda/salvar/',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(venda),
+				success: function (data) {
+					console.log(data);
+				},
+				error: function (xhr, status, error) {
+					console.log('Erro ao salvar a venda: ' + error + xhr + status);
+				}
+			});
+		});
+
+		function calcularTotalDaVenda() {
+			const total = document.getElementsByClassName('total');
+			let totalDaVenda = 0;
+			for (let i = 0; i < total.length; i++) {
+				totalDaVenda += parseFloat(total[i].textContent);
+			}
+			console.log(totalDaVenda)
+			document.getElementsByClassName('total-venda')[0].value = totalDaVenda;
+		}
+
+		$('.tabela-venda').on('click', '.btn-excluir', function () {
+			// Obtenha a linha da tabela a ser excluída
+			var row = $(this).closest('tr');
+
+			// Remova a linha da tabela
+			row.remove();
+
+			// Recalcule o total da venda
+			calcularTotalDaVenda();
+		});
+
+
+		function carregarProduto() {
+			$.get('http://localhost:8080/produto/listaProduto', function (data) {
+				const select = document.getElementById('produto');
+				for (let i = 0; i < data.length; i++) {
+					const option = document.createElement('option');
+					option.value = data[i].id;
+					option.text = data[i].nome;
+					select.appendChild(option);
+				}
+			});
 		}
 	</script>
-
 </body>
 
 </html>

@@ -37,6 +37,7 @@
 					<th scope="col">Nome</th>
 					<th scope="col">Email</th>
 					<th scope="col">Data de Nascimento</th>
+					<th scope="col">Username</th>
 					<th scope="col">Alterar</th>
 					<th scope="col">Excluir</th>
 				</tr>
@@ -47,6 +48,7 @@
 					<td th:text="${item.nome}"></td>
 					<td th:text="${item.email}"></td>
 					<td th:text="${item.datanascimento}"></td>
+					<td th:text="${item.usuario.username}"></td>
 					<td><a class="btn btn-info" th:href="@{/funcionario/preAlterar(id=${item.id})}">Alterar</a></td>
 					<td><button class="btn btn-info excluir" data-target="#myModal" type="button" th:id="${item.id}"
 							data-value="/funcionario/excluir?id={id}" data-toggle="modal">Excluir</button></td>

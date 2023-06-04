@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -32,6 +34,7 @@ public class Cliente extends AbstractEntity<Integer> {
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate datanascimento;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Venda> vendas;
 

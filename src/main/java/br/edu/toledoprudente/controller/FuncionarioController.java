@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.toledoprudente.dao.FuncionarioDAO;
+import br.edu.toledoprudente.dao.UsersDAO;
 import br.edu.toledoprudente.pojo.AppAuthority;
 import br.edu.toledoprudente.pojo.Funcionario;
 import br.edu.toledoprudente.pojo.Users;
@@ -28,6 +29,9 @@ public class FuncionarioController {
 
 	@Autowired
 	private FuncionarioDAO dao;
+
+	@Autowired
+	private UsersDAO daousers;
 
 	@GetMapping("/index")
 	public String index(ModelMap model) {
@@ -72,17 +76,18 @@ public class FuncionarioController {
 			validator = factory.getValidator();
 			Set<ConstraintViolation<Funcionario>> constraintViolations = validator.validate(fun);
 			String errors = "";
-			
+
 			for (ConstraintViolation<Funcionario> constraintViolation : constraintViolations) {
 				errors = errors + constraintViolation.getMessage() + ". ";
 			}
-			
+
 			if (errors != "") {
 				model.addAttribute("funcionario", fun);
 				model.addAttribute("mensagem", errors);
 				model.addAttribute("retorno", false);
-				return "/funcionario/index";		
+				return "/funcionario/index";
 			} else {
+
 				Users usu = fun.getUsuario();
 				String senha = "{bcrypt}" + new BCryptPasswordEncoder().encode(usu.getPassword());
 				usu.setPassword(senha);
@@ -95,10 +100,19 @@ public class FuncionarioController {
 				app.setUsername(usu.getUsername());
 				appAuthorities.add(app);
 				usu.setAppAuthorities(appAuthorities);
-				
+
 				if (fun.getId() == null) {
-					dao.save(fun);
+					if (daousers.findByUserName(fun.getUsuario().getUsername()) == null) {
+						dao.save(fun);
+					}	
 				} else {
+					Funcionario existingFuncionario = dao.findById(fun.getId());
+					Users existingUser = existingFuncionario.getUsuario();
+					existingUser.setUsername(usu.getUsername());
+					existingUser.setPassword(usu.getPassword());
+					existingUser.setEnabled(usu.isEnabled());
+					existingUser.setAdmin(usu.isAdmin());
+					existingUser.setAppAuthorities(usu.getAppAuthorities());
 					dao.update(fun);
 				}
 
@@ -121,16 +135,16 @@ public class FuncionarioController {
 			validator = factory.getValidator();
 			Set<ConstraintViolation<Funcionario>> constraintViolations = validator.validate(fun);
 			String errors = "";
-			
+
 			for (ConstraintViolation<Funcionario> constraintViolation : constraintViolations) {
 				errors = errors + constraintViolation.getMessage() + ". ";
 			}
-			
+
 			if (errors != "") {
 				model.addAttribute("funcionario", fun);
 				model.addAttribute("mensagem", errors);
 				model.addAttribute("retorno", false);
-				return "/cadastro";		
+				return "/cadastro";
 			} else {
 				Users usu = fun.getUsuario();
 				String senha = "{bcrypt}" + new BCryptPasswordEncoder().encode(usu.getPassword());
@@ -144,13 +158,7 @@ public class FuncionarioController {
 				app.setUsername(usu.getUsername());
 				appAuthorities.add(app);
 				usu.setAppAuthorities(appAuthorities);
-				
-				if (fun.getId() == null) {
-					dao.save(fun);
-				} else {
-					dao.update(fun);
-				}
-
+				dao.save(fun);
 				model.addAttribute("mensagem", "Salvo com sucesso!");
 				model.addAttribute("retorno", true);
 			}

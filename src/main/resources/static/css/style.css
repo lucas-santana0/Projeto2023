@@ -9,3 +9,17 @@ body {
 table {
 	text-align: center;
 }
+
+#btnincluirproduto,
+.btncomprar {
+	width: 100%;
+	color: #fff;
+}
+
+.campo-incluir-produto,
+.campo-comprar {
+	width: 100%;
+	display: flex;
+	justify-content: end;
+	align-items: flex-end;
+}

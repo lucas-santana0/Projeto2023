@@ -168,4 +168,10 @@ public class ProdutoController {
 		Produto obj = dao.findById(id);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
+
+	@GetMapping(path = "/listaProduto", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getProdutos() {
+		List<Produto> produtos = dao.findAll();
+		return new ResponseEntity<>(produtos, HttpStatus.OK);
+	}
 }

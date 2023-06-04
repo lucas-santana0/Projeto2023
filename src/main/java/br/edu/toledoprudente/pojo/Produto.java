@@ -1,7 +1,6 @@
 package br.edu.toledoprudente.pojo;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -39,7 +38,7 @@ public class Produto extends AbstractEntity<Integer> {
 	private BigDecimal preco;
 
 	@Column(name = "estoque", columnDefinition = "INT", nullable = false)
-	private BigInteger estoque;
+	private Integer estoque;
 
 	@Column(name = "imagem", length = 300)
 	private String imagem;
@@ -74,14 +73,6 @@ public class Produto extends AbstractEntity<Integer> {
 		this.preco = preco;
 	}
 
-	public BigInteger getEstoque() {
-		return estoque;
-	}
-
-	public void setEstoque(BigInteger estoque) {
-		this.estoque = estoque;
-	}
-
 	public String getImagem() {
 		return imagem;
 	}
@@ -96,5 +87,13 @@ public class Produto extends AbstractEntity<Integer> {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public int getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(int estoque) {
+		this.estoque = estoque;
 	}
 }
