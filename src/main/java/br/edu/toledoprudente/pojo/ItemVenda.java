@@ -1,5 +1,7 @@
 package br.edu.toledoprudente.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -20,6 +22,7 @@ public class ItemVenda extends AbstractEntity<Integer> {
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_venda")
     private Venda venda;

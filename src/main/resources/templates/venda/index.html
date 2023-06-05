@@ -119,32 +119,27 @@
 					const colunaTotal = document.createElement('td');
 					const colunaExcluir = document.createElement('td');
 
-					// Definir o conteúdo das colunas
 					colunaDescricao.textContent = idProduto;
 					colunaQuantidade.textContent = quantidade;
 					colunaValorUnitario.textContent = valorUnitario;
 					colunaTotal.textContent = totalItem;
 
-					// Adicionar classes CSS, se necessário
 					colunaDescricao.classList.add('descricao');
 					colunaQuantidade.classList.add('quantidade');
 					colunaValorUnitario.classList.add('valor-unitario');
 					colunaTotal.classList.add('total');
 
-					// Adicionar as colunas à linha
 					row.appendChild(colunaDescricao);
 					row.appendChild(colunaQuantidade);
 					row.appendChild(colunaValorUnitario);
 					row.appendChild(colunaTotal);
 
-					// Criar o botão de excluir e adicionar à coluna correspondente
 					const botaoExcluir = document.createElement('button');
 					botaoExcluir.textContent = 'Excluir';
 					botaoExcluir.classList.add('btn-excluir', 'btn', 'btn-primary');
 					colunaExcluir.appendChild(botaoExcluir);
 					row.appendChild(colunaExcluir);
 
-					// Adicionar a linha ao corpo da tabela
 					tableBody.appendChild(row);
 				}
 			}
@@ -204,15 +199,16 @@
 			};
 
 			$.ajax({
-				url: 'http://localhost:8080/venda/salvar/',
-				type: 'POST',
-				contentType: 'application/json',
+				type: "POST",
+				url: "http://localhost:8080/venda/salvar",
+				contentType: "application/json; charset=utf-8",
 				data: JSON.stringify(venda),
-				success: function (data) {
-					console.log(data);
+				dataType: "json",
+				success: function (jsonResult) {
+					console.log(jsonResult);
 				},
-				error: function (xhr, status, error) {
-					console.log('Erro ao salvar a venda: ' + error + xhr + status);
+				failure: function (response) {
+					alert("Erro ao carregar os dados: " + response);
 				}
 			});
 		});

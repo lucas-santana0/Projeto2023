@@ -19,19 +19,18 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/login").permitAll()
-				.requestMatchers("/img/**").permitAll()
-				.requestMatchers("/css/**").permitAll()
-				.requestMatchers("/cadastro").permitAll()
-				.requestMatchers("/funcionario/cadastrar").permitAll()
-				.anyRequest().authenticated()
-		).formLogin(
-				(form) -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll().failureUrl("/login-error"))
+		http.csrf().disable()
+				.authorizeHttpRequests((requests) -> requests.requestMatchers("/login").permitAll()
+						.requestMatchers("/img/**").permitAll().requestMatchers("/css/**").permitAll()
+						.requestMatchers("/cadastro").permitAll().requestMatchers("/funcionario/cadastrar").permitAll()
+						.anyRequest().authenticated())
+				.formLogin((form) -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll()
+						.failureUrl("/login-error"))
 				.logout((logout) -> logout.invalidateHttpSession(true).clearAuthentication(true)
 						.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
 						.permitAll());
 
 		return http.build();
 	}
+
 }

@@ -38,7 +38,7 @@ public class Produto extends AbstractEntity<Integer> {
 	private BigDecimal preco;
 
 	@Column(name = "estoque", columnDefinition = "INT", nullable = false)
-	private Integer estoque;
+	private int estoque;
 
 	@Column(name = "imagem", length = 300)
 	private String imagem;

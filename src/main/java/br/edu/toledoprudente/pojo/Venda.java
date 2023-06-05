@@ -8,6 +8,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import jakarta.persistence.CascadeType;
@@ -36,11 +39,13 @@ public class Venda extends AbstractEntity<Integer> {
 	@NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
 	private Double valorTotal;
 
+	@JsonIgnore
 	@NotNull(message = "Informe um cliente")
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ItemVenda> itens = new ArrayList<>();
 
