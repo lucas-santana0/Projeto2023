@@ -39,15 +39,13 @@ public class Venda extends AbstractEntity<Integer> {
 	@NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
 	private Double valorTotal;
 
-	@JsonIgnore
 	@NotNull(message = "Informe um cliente")
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ItemVenda> itens = new ArrayList<>();
+	@OneToMany(mappedBy = "venda")
+	private List<ItemVenda> itens;
 
 	public LocalDate getData() {
 		return data;

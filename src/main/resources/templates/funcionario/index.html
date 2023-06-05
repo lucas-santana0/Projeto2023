@@ -25,29 +25,35 @@
 		<h1>Funcionários</h1>
 
 		<form method="post" th:action="@{/funcionario/salvar}" th:object="${funcionario}">
-			<div class="form-group">
-				<label for="codigo">Código</label>
-				<input th:field="*{id}" type="text" readonly class="form-control" id="codigo">
+			<div class="row">
+				<div class="form-group col-12 col-md-6">
+					<label for="codigo">Código</label>
+					<input th:field="*{id}" type="text" readonly class="form-control" id="codigo">
+				</div>
+				<div class="form-group col-12 col-md-6">
+					<label for="nome">Nome</label>
+					<input th:field="*{nome}" type="text" class="form-control" id="nome">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="nome">Nome</label>
-				<input th:field="*{nome}" type="text" class="form-control" id="nome">
+			<div class="row">
+				<div class="form-group col-12 col-md-6">
+					<label for="email">Email</label>
+					<input th:field="*{email}" type="email" class="form-control" id="email">
+				</div>
+				<div class="form-group col-12 col-md-6">
+					<label for="datanascimento">Data de Nascimento</label>
+					<input th:field="*{datanascimento}" type="date" class="form-control" id="datanascimento">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="email">Email</label>
-				<input th:field="*{email}" type="email" class="form-control" id="email">
-			</div>
-			<div class="form-group">
-				<label for="datanascimento">Data de Nascimento</label>
-				<input th:field="*{datanascimento}" type="date" class="form-control" id="datanascimento">
-			</div>
-			<div class="form-group">
-				<label for="username">Username</label>
-				<input th:field="*{usuario.username}" type="text" class="form-control" id="username">
-			</div>
-			<div class="form-group">
-				<label for="senha">Senha</label>
-				<input th:field="*{usuario.password}" type="password" class="form-control" id="senha">
+			<div class="row">
+				<div class="form-group col-12 col-md-6">
+					<label for="username">Username</label>
+					<input th:field="*{usuario.username}" type="text" class="form-control" id="username">
+				</div>
+				<div class="form-group col-12 col-md-6">
+					<label for="senha">Senha</label>
+					<input th:field="*{usuario.password}" type="password" class="form-control" id="senha">
+				</div>
 			</div>
 			<div class="form-group">
 				<input th:field="*{usuario.id}" type="hidden">
@@ -60,9 +66,6 @@
 			<span th:if="!${retorno}" class="alert alert-danger" th:text="${mensagem}"></span>
 		</div>
 	</main>
-
-	<footer th:include="fragmentos::rodape">
-	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
 		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>

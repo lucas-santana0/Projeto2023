@@ -25,39 +25,44 @@
 		<h1>Produtos</h1>
 
 		<form method="post" enctype="multipart/form-data" th:action="@{/produto/salvar}" th:object="${produto}">
-			<div class="form-group">
-				<label for="codigo">Código</label>
-				<input th:field="*{id}" type="text" readonly class="form-control" id="codigo">
+			<div class="row">
+				<div class="form-group col-12 col-md-6">
+					<label for="codigo">Código</label>
+					<input th:field="*{id}" type="text" readonly class="form-control" id="codigo">
+				</div>
+				<div class="form-group col-12 col-md-6">
+					<label for="nome">Nome</label>
+					<input th:field="*{nome}" type="text" class="form-control" id="nome">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="nome">Nome</label>
-				<input th:field="*{nome}" type="text" class="form-control" id="nome">
+			<div class="row">
+				<div class="form-group col-12 col-md-6">
+					<label for="descricao">Descrição</label>
+					<input th:field="*{descricao}" type="text" class="form-control" id="descricao">
+				</div>
+				<div class="form-group col-12 col-md-6">
+					<label for="estoque">Estoque</label>
+					<input th:field="*{estoque}" type="number" class="form-control" id="estoque">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="descricao">Descrição</label>
-				<input th:field="*{descricao}" type="text" class="form-control" id="descricao">
+			<div class="row">
+				<div class="form-group col-12 col-md-4">
+					<label for="preco">Preço</label>
+					<input th:field="*{preco}" type="text" class="form-control" id="preco">
+				</div>
+				<div class="form-group col-12 col-md-4">
+					<label for="categoria">Categoria</label>
+					<select class="form-control" th:field="*{categoria}">
+						<option value="">Selecione uma categoria</option>
+						<option th:each="item:${listaCategoria}" th:value="${item.id}" th:text="${item.descricao}">
+						</option>
+					</select>
+				</div>
+				<div class="form-group col-12 col-md-4">
+					<label for="file">Imagem</label>
+					<input th:src="*{imagem}" type="file" id="file" name="file">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="estoque">Estoque</label>
-				<input th:field="*{estoque}" type="number" class="form-control" id="estoque">
-			</div>
-			<div class="form-group">
-				<label for="preco">Preço</label>
-				<input th:field="*{preco}" type="text" class="form-control" id="preco">
-			</div>
-			<div class="form-group">
-				<label for="categoria">Categoria</label>
-				<select class="form-control" th:field="*{categoria}">
-					<option value="">Selecione uma categoria</option>
-					<option th:each="item:${listaCategoria}" th:value="${item.id}" th:text="${item.descricao}"></option>
-				</select>
-			</div>
-
-			<div class="form-group">
-				<label for="file">Imagem</label>
-				<input th:src="*{imagem}" type="file" id="file" name="file">
-			</div>
-
 			<button type="submit" class="btn btn-primary">Salvar</button>
 		</form>
 
@@ -66,9 +71,6 @@
 			<span th:if="!${retorno}" class="alert alert-danger" th:text="${mensagem}"></span>
 		</div>
 	</main>
-
-	<footer th:include="fragmentos::rodape">
-	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
 		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>

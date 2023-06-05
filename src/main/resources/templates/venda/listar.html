@@ -30,14 +30,13 @@
 			</a>
 		</div>
 
-		<table class="table tabela-venda">
+		<table class="table table-striped tabela-venda">
 			<thead>
 				<tr>
 					<th scope="col">Código</th>
 					<th scope="col">Cliente</th>
 					<th scope="col">Data</th>
 					<th scope="col">Valor Total</th>
-					<th scope="col">Detalhes</th>
 				</tr>
 			</thead>
 			<tbody class="lista-vendas">
@@ -72,12 +71,9 @@
 					const row = `
                 <tr>
                     <td>${venda.id}</td>
-                    <td>${venda.cliente}</td>
+                    <td>${venda.cliente.nome}</td>
                     <td>${venda.data}</td>
-                    <td>${venda.valorTotal}</td>
-                    <td>
-                        <button onclick="mostrarDetalhes(${venda.codigo})">Detalhes</button>
-                    </td>
+                    <td>R$ ${venda.valorTotal}</td>
                 </tr>
             `;
 					listaVendasBody.append(row);

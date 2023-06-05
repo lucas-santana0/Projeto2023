@@ -5,9 +5,10 @@
 
 <body>
 	<div th:fragment="topo">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-lg menu">
 			<a class="navbar-brand" th:href="@{/}">
-				<img th:src="@{/img/caixa.png}" width="30" height="30" class="d-inline-block align-top" alt="">
+				<img th:src="@{/img/controle-estoque.png}" width="30" height="30" class="d-inline-block align-top"
+					alt="">
 				Controle de Estoque
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado"
@@ -19,22 +20,22 @@
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/categoria/listar}">
-							<img th:src="@{/img/lista-de-controle.png}" width="30" height="30"
-								class="d-inline-block align-top" alt="">
+							<img th:src="@{/img/categoria.png}" width="30" height="30" class="d-inline-block align-top"
+								alt="">
 							Categorias
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/produto/listar}">
-							<img th:src="@{/img/cartao.png}" width="30" height="30" class="d-inline-block align-top"
+							<img th:src="@{/img/produto.png}" width="30" height="30" class="d-inline-block align-top"
 								alt="">
 							Produtos
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" th:href="@{/cliente/listar}">
-							<img th:src="@{/img/atendimento-ao-cliente.png}" width="30" height="30"
-								class="d-inline-block align-top" alt="">
+							<img th:src="@{/img/cliente.png}" width="30" height="30" class="d-inline-block align-top"
+								alt="">
 							Clientes
 						</a>
 					</li>
@@ -46,15 +47,22 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" th:href="@{/logout}">Sair</a>
+						<a class="nav-link" th:href="@{/venda/listar}">
+							<img th:src="@{/img/venda.png}" width="30" height="30" class="d-inline-block align-top"
+								alt="">
+							Vendas
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" th:href="@{/logout}">
+							<img th:src="@{/img/sair.png}" width="30" height="30" class="d-inline-block align-top"
+								alt="">
+							Sair
+						</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
-	</div>
-
-	<div th:fragment="rodape">
-
 	</div>
 
 	<div th:fragment="script">

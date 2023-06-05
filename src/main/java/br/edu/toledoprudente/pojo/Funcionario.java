@@ -33,20 +33,20 @@ public class Funcionario extends AbstractEntity<Integer> {
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate datanascimento;
 
-	public Users getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Users usuario) {
-		this.usuario = usuario;
-	}
-
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "idUsuario")
 	private Users usuario;
 
 	public String getNome() {
 		return nome;
+	}
+
+	public Users getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Users usuario) {
+		this.usuario = usuario;
 	}
 
 	public void setNome(String nome) {

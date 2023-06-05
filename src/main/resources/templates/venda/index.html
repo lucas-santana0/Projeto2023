@@ -187,6 +187,7 @@
 		}
 
 		$('.btn-salvar-venda').click(function () {
+
 			const cliente = parseInt(document.getElementById('cliente').value);
 			const totalVenda = parseFloat($('.total-venda').val());
 			const itens = obterItensVenda();
@@ -205,12 +206,13 @@
 				data: JSON.stringify(venda),
 				dataType: "json",
 				success: function (jsonResult) {
-					console.log(jsonResult);
+					alert('Venda realizada com sucesso!');
 				},
 				failure: function (response) {
 					alert("Erro ao carregar os dados: " + response);
 				}
 			});
+
 		});
 
 		function calcularTotalDaVenda() {

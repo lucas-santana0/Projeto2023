@@ -1,6 +1,5 @@
 body {
 	font-family: 'Montserrat', sans-serif;
-	color: #444444;
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -14,6 +13,15 @@ table {
 .btncomprar {
 	width: 100%;
 	color: #fff;
+}
+
+.menu {
+	background-color: #3fc1c9;
+}
+
+.menu a {
+	color: #fff;
+	/* text-decoration: none; */
 }
 
 .campo-incluir-produto,
